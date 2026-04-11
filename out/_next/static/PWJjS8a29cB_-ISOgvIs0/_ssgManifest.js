@@ -1,0 +1,1 @@
+self.__SSG_MANIFEST=new Set(["\u002Fdashboard\u002Fflota\u002F[droneId]\u002Fhistorial","\u002Fdashboard\u002Fflota\u002F[droneId]\u002Fmision","\u002Fvisor-vuelo\u002F[droneId]"]);self.__SSG_MANIFEST_CB&&self.__SSG_MANIFEST_CB()
