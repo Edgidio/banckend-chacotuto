@@ -55,6 +55,21 @@ func (dc *DroneController) GetAll(c *fiber.Ctx) error {
 			}
 		}
 
+		// Fallback: Si no hay misión en el registry, buscar última misión activa en BD
+		// SOLO si el dron NO está en 'idle' (el usuario no quiere ver misiones viejas al reconectar)
+		if (d["currentMission"] == nil || d["currentMission"] == "") && d["status"] != "idle" {
+			var activeMission models.Mission
+			res := database.DB.Where("drone_id = ? AND status NOT IN ?", drone.DroneID, []string{"completed", "cancelled"}).
+				Order("created_at DESC").First(&activeMission)
+			if res.Error == nil {
+				d["currentMission"] = activeMission.MissionID
+				// Si el dron está offline pero tiene misión, podríamos querer reflejar ese estado
+				if d["status"] == "offline" {
+					d["status"] = "mission_assigned" 
+				}
+			}
+		}
+
 		result = append(result, d)
 	}
 
@@ -96,6 +111,19 @@ func (dc *DroneController) GetOne(c *fiber.Ctx) error {
 		d["lastHeartbeat"] = liveData["lastHeartbeat"]
 		if telem, ok := liveData["lastTelemetry"]; ok {
 			d["lastTelemetry"] = telem
+		}
+		if mission, ok := liveData["currentMission"]; ok {
+			d["currentMission"] = mission
+		}
+	}
+
+	// Fallback de misión activa (solo si no está idle)
+	if (d["currentMission"] == nil || d["currentMission"] == "") && d["status"] != "idle" {
+		var activeMission models.Mission
+		res := database.DB.Where("drone_id = ? AND status NOT IN ?", droneID, []string{"completed", "cancelled"}).
+			Order("created_at DESC").First(&activeMission)
+		if res.Error == nil {
+			d["currentMission"] = activeMission.MissionID
 		}
 	}
 

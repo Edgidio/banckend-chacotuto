@@ -4,6 +4,9 @@ import (
 	"log"
 	"sync"
 	"time"
+
+	"backend-chacotuto/app/models"
+	"backend-chacotuto/pkg/database"
 )
 
 // ConnectedDrone es el estado en memoria de un dron conectado
@@ -126,7 +129,16 @@ func (r *DroneRegistry) MarkOffline(droneID string) {
 		drone.IsOnline = false
 		drone.Status = "offline"
 		drone.Client = nil
-		log.Printf("⚠️ Dron marcado offline: %s", droneID)
+		
+		// Sincronizar con BD
+		if database.DB != nil {
+			database.DB.Model(&models.Drone{}).Where("drone_id = ?", droneID).Updates(map[string]interface{}{
+				"is_online": false,
+				"status":    "offline",
+			})
+		}
+		
+		log.Printf("⚠️ Dron marcado offline (y en BD): %s", droneID)
 	}
 }
 
@@ -209,7 +221,16 @@ func (r *DroneRegistry) checkHeartbeats() {
 			drone.IsOnline = false
 			drone.Status = "offline"
 			drone.Client = nil
-			log.Printf("⏰ Dron %s timeout (sin heartbeat por >10s)", droneID)
+
+			// Sincronizar con BD
+			if database.DB != nil {
+				database.DB.Model(&models.Drone{}).Where("drone_id = ?", droneID).Updates(map[string]interface{}{
+					"is_online": false,
+					"status":    "offline",
+				})
+			}
+
+			log.Printf("⏰ Dron %s timeout (sin heartbeat por >10s) — Actualizado en BD", droneID)
 
 			// Notificar al GCS (en goroutine para no bloquear el lock)
 			go r.hub.BroadcastToGCS(map[string]interface{}{

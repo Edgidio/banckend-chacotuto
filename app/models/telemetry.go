@@ -38,6 +38,10 @@ type TelemetryLog struct {
 	CurrentWaypoint int `json:"currentWaypoint"`
 	TotalWaypoints  int `json:"totalWaypoints"`
 
+	// Batería
+	BatteryLevel int  `json:"batteryLevel"`
+	IsCharging   bool `json:"isCharging"`
+
 	// Timestamp del servidor
 	CreatedAt time.Time `json:"createdAt"`
 }

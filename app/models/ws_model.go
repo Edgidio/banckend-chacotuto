@@ -39,6 +39,13 @@ type TelemetryMsg struct {
 	Orientation OrientationPayload `json:"orientation"`
 	GPS         *GPSPayload        `json:"gps,omitempty"`
 	Mission     *MissionProgress   `json:"mission,omitempty"`
+	Battery     *BatteryPayload    `json:"battery,omitempty"`
+}
+
+// BatteryPayload contiene el estado de la batería del dispositivo
+type BatteryPayload struct {
+	Level      int  `json:"level"`
+	IsCharging bool `json:"isCharging"`
 }
 
 // SensorPayload agrupa los tres sensores del dispositivo

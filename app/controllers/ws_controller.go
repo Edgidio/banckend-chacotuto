@@ -81,11 +81,11 @@ func (wsCtrl *WsController) ServeWSDrone(conn *fiberWebsocket.Conn) {
 
 // ServeWSGCS es el handler WebSocket para conexiones del GCS (dashboard)
 func (wsCtrl *WsController) ServeWSGCS(conn *fiberWebsocket.Conn) {
-	// Usar el username como ID del cliente GCS
+	// Usar el username + UUID único para permitir múltiples pestañas por usuario
 	username := conn.Locals("username")
 	clientID := "gcs-"
 	if u, ok := username.(string); ok && u != "" {
-		clientID += u
+		clientID += u + "-" + uuid.New().String()
 	} else {
 		clientID += uuid.New().String()
 	}

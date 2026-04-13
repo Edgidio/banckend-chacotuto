@@ -37,17 +37,22 @@ func main() {
 	authCtrl := controllers.NewAuthController()
 	droneCtrl := controllers.NewDroneController(hub)
 	missionCtrl := controllers.NewMissionController(hub)
+	statsCtrl := controllers.NewStatsController()
 
 	// 6. Montar todas las rutas
-	routes.SetupRoutes(app, wsCtrl, authCtrl, droneCtrl, missionCtrl)
+	routes.SetupRoutes(app, wsCtrl, authCtrl, droneCtrl, missionCtrl, statsCtrl)
 
-	// 7. Servir Frontend estático (Next.js SPA)
-	// Servir archivos directos desde la carpeta ./out
-	app.Static("/", "./out")
+	// 7. Servir Frontend estático (Next.js Static Export con trailingSlash: true)
+	// Con trailingSlash, cada ruta genera out/<ruta>/index.html
+	// Fiber lo sirve nativamente al encontrar index.html en cada directorio.
+	app.Static("/", "./out", fiber.Static{
+		Index:  "index.html", // Sirve index.html cuando se accede a un directorio
+		Browse: false,        // Sin listado de directorios
+	})
 
-	// Capturar cualquier ruta restante y servir index.html (SPA fallback)
-	app.Get("/*", func(c *fiber.Ctx) error {
-		return c.SendFile("./out/index.html")
+	// Fallback: cualquier ruta sin archivo → 404 de Next.js
+	app.Use(func(c *fiber.Ctx) error {
+		return c.Status(404).SendFile("./out/404.html")
 	})
 
 	// 8. Log de rutas disponibles

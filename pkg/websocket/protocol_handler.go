@@ -188,6 +188,12 @@ func (p *ProtocolHandler) handleTelemetry(client *Client, raw []byte) {
 			p.registry.mu.RUnlock()
 		}
 
+		// Batería
+		if msg.Battery != nil {
+			telemetryLog.BatteryLevel = msg.Battery.Level
+			telemetryLog.IsCharging = msg.Battery.IsCharging
+		}
+
 		go func() {
 			if err := database.DB.Create(&telemetryLog).Error; err != nil {
 				log.Printf("Error guardando telemetría en BD: %v", err)

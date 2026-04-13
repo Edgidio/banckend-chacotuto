@@ -15,6 +15,7 @@ func SetupRoutes(
 	authCtrl *controllers.AuthController,
 	droneCtrl *controllers.DroneController,
 	missionCtrl *controllers.MissionController,
+	statsCtrl *controllers.StatsController,
 ) {
 
 	// ===================================================================
@@ -39,6 +40,9 @@ func SetupRoutes(
 
 	// Grupo API protegido
 	api := app.Group("/api", middleware.AuthRequired())
+
+	// Analíticas / Dashboard
+	api.Get("/stats", statsCtrl.GetStats)
 
 	// Auth protegida
 	api.Post("/auth/register", authCtrl.Register) // Solo admin puede crear usuarios

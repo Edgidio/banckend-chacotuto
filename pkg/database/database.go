@@ -39,6 +39,20 @@ func Connect() {
 
 	// Seed: crear usuario admin si no existe
 	seedAdmin()
+
+	// Reset: marcar todos los drones como offline al iniciar el servidor
+	ResetDroneStatus()
+}
+
+func ResetDroneStatus() {
+	if DB == nil {
+		return
+	}
+	log.Println("🔄 Reseteando estado de drones a offline...")
+	DB.Model(&models.Drone{}).Where("1 = 1").Updates(map[string]interface{}{
+		"is_online": false,
+		"status":    "offline",
+	})
 }
 
 func seedAdmin() {
