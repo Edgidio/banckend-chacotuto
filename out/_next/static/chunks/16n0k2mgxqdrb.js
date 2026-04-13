@@ -1,0 +1,16 @@
+(globalThis.TURBOPACK||(globalThis.TURBOPACK=[])).push(["object"==typeof document?document.currentScript:void 0,87037,t=>{"use strict";var i=t.i(43476),e=t.i(10007),o=t.i(23177),l=t.i(51892),n=t.i(22305),r=t.i(27828),s=t.i(36730),a=t.i(32322),c=t.i(71645);let h=a.default.divIcon({className:"custom-div-icon",html:`
+    <svg width="32" height="42" viewBox="0 0 24 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 6px rgba(0,229,204,0.8));">
+      <path d="M12 0C5.37258 0 0 5.37258 0 12C0 21 12 32 12 32C12 32 24 21 24 12C24 5.37258 18.6274 0 12 0Z" fill="var(--hud-cyan)" />
+      <circle cx="12" cy="12" r="5" fill="white" />
+    </svg>`,iconSize:[32,42],iconAnchor:[16,42],popupAnchor:[0,-42]}),d=a.default.divIcon({className:"custom-div-icon",html:`
+    <svg width="40" height="52" viewBox="0 0 30 40" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 8px rgba(34,197,94,0.8));">
+      <path d="M15 0C6.71573 0 0 6.71573 0 15C0 26.25 15 40 15 40C15 40 30 26.25 30 15C30 6.71573 23.2843 0 15 0Z" fill="var(--telemetry-green)" />
+      <text x="15" y="20" fill="white" font-size="14" font-weight="900" text-anchor="middle" font-family="var(--font-mono)">H</text>
+    </svg>`,iconSize:[40,52],iconAnchor:[20,52],popupAnchor:[0,-52]}),g=a.default.divIcon({className:"custom-div-icon",html:`
+    <div style="transform: rotate(45deg);">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2L15 9H9L12 2Z" fill="var(--telemetry-amber)" />
+        <circle cx="12" cy="12" r="4" fill="var(--telemetry-amber)" stroke="white" stroke-width="1.5" />
+      </svg>
+    </div>
+  `,iconSize:[24,24],iconAnchor:[12,12]});function p({onClick:t}){return(0,s.useMapEvents)({click(i){t(i.latlng.lat,i.latlng.lng)}}),null}function x({center:t}){let i=(0,s.useMap)();return(0,c.useEffect)(()=>{i.flyTo(t,i.getZoom(),{animate:!0,duration:1.5})},[t[0],t[1],i]),null}t.s(["default",0,function({waypoints:t,startPoint:s,onMapClick:a,replayTrajectory:c,replayDronePosition:m}){let f=s?[s.lat,s.lng]:[10.4806,-66.9036],u=[];return s&&u.push([s.lat,s.lng]),t.forEach(t=>u.push([t.lat,t.lng])),(0,i.jsxs)(e.MapContainer,{center:f,zoom:16,style:{height:"100%",width:"100%",background:"var(--void)",zIndex:1},zoomControl:!1,children:[s&&(0,i.jsx)(x,{center:[s.lat,s.lng]}),(0,i.jsx)(o.TileLayer,{url:"https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}",attribution:"© Google Maps",maxZoom:20}),(0,i.jsx)(p,{onClick:a}),s&&d&&(0,i.jsx)(l.Marker,{position:[s.lat,s.lng],icon:d,children:(0,i.jsxs)(n.Popup,{children:["HOME / TAKEOFF ",(0,i.jsx)("br",{})," ",s.lat.toFixed(5),", ",s.lng.toFixed(5)]})}),t.map((t,e)=>(0,i.jsx)(l.Marker,{position:[t.lat,t.lng],icon:h,children:(0,i.jsx)(n.Popup,{children:(0,i.jsxs)("div",{style:{fontFamily:"var(--font-mono)"},children:[(0,i.jsxs)("strong",{children:["WAYPOINT ",t.index]})," ",(0,i.jsx)("br",{}),"ALT: ",t.alt,"m ",(0,i.jsx)("br",{}),"ACCIÓN: ",t.action]})})},t.index)),u.length>1&&(0,i.jsx)(r.Polyline,{positions:u,color:"#ff5500",weight:6,opacity:1}),c&&c.length>1&&(0,i.jsx)(r.Polyline,{positions:c,color:"var(--telemetry-amber)",weight:3,opacity:.8}),m&&g&&(0,i.jsx)(l.Marker,{position:m,icon:g,zIndexOffset:1e3,children:(0,i.jsx)(n.Popup,{children:"POSICIÓN ACTUAL"})})]})}])},26149,t=>{t.n(t.i(87037))}]);
